@@ -18,20 +18,24 @@ contract OFAToken is ERC20 {
         // _mint(address(this), initSupply); // contract address
     }
 
+    fallback () 
+    external 
+    payable 
+    onlyListed 
+    {
+        require(msg.value != 0);
+        getToken(msg.value, msg.sender);
+    }
 
-    function getToken(uint256 ethsend) public onlyListed {
-        require(ethsend > 0);
-
-        uint8 multiplicator = 10 * allowListed[msg.sender]; // allowListed[msg.sender] = tier level = 1 or 2 or 3 (3 is the highest)
-
-        transfer(address(this), ethsend); // send ether to the contract address
-        _mint(msg.sender, ethsend*multiplicator); // "send" 10*tierLevel OFA token for every Ether send to the contract
+    function getToken(uint256 _ethsend, address _sender) internal {
+        uint8 _multiplicator = 10 * allowListed[_sender]; // allowListed[msg.sender] = tier level = 1 or 2 or 3 (3 is the highest)
+        _mint(msg.sender, _ethsend*_multiplicator); // mint foe the sender 10 * tierLevel OFA token for every Ether send to the contract
     }
 
 
-    function addCustomer(address adrs, uint8 tier) public onlyAdmin {
-        require(tier == 1 || tier == 2 || tier == 3 || tier == 0);
-        allowListed[adrs] = tier;
+    function addCustomer(address _address, uint8 _tier) public onlyAdmin {
+        require(_tier == 1 || _tier == 2 || _tier == 3 || _tier == 0);
+        allowListed[_address] = _tier;
     }
 
 
