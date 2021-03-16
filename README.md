@@ -107,7 +107,7 @@ truffle migrate
 
 On peut remarquer que la première adresse a été créditée car par défaut c'est elle qui est utilisé pour déployer le contrat. Dans l'onglet 'BLOCKS' 4 blocs ont été ajoutés et les transactions sont visibles dans l'onglet 'TRANSACTIONS'.
 
-![Ganache](./README_images/Ganache.png "Ganache")
+![Ganache](./README_images/Ganache.PNG "Ganache")
 
 Il est ensuite possible d'intéragir avec le contrat pour le tester depuis la console avec truffle.
 
@@ -128,7 +128,7 @@ Afin de migrer vers un testnet on a besoin de HDWalletProvider de truffle : ```n
 
 Il faut aussi s'enregistrer à **Infura** qui est une infrastructure permettant permet aux développeurs de Dapps *'applications décentralisées'* d’accéder aux informations de la blockchain Ethereum sans avoir besoin de posséder un noeud complet. Une fois enregistré, il faut créer un projet, selectionner un *endpoints* (testnet Rinkeby pour notre part) et récupérer la clé API ou *Project ID* et le premier morceau de l'adresse https.
 
-![infura-keys](./README_images/infuraKey.png "Infura Keys")
+![infura-keys](./README_images/infuraKey.PNG "Infura Keys")
 
 ### Configure Truffle project
 
