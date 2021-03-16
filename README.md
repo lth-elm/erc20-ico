@@ -107,7 +107,7 @@ truffle migrate
 
 On peut remarquer que la première adresse a été créditée car par défaut c'est elle qui est utilisé pour déployer le contrat. Dans l'onglet 'BLOCKS' 4 blocs ont été ajoutés et les transactions sont visibles dans l'onglet 'TRANSACTIONS'.
 
-![Ganache](./README_images/Ganache.PNG "Ganache")
+![Ganache](./README_images/ganache.PNG "Ganache")
 
 Il est ensuite possible d'intéragir avec le contrat pour le tester depuis la console avec truffle.
 
@@ -246,3 +246,16 @@ Le hash de la transaction est la suivante *0xaf3c0daaed553adf6cfe9ce85408b76f01b
 
 # Manipulation sur le testnet Rinkeby
 
+Si vous n'êtes pas sur la whitelist vous ne pourrez pas recevoir des OFA, il vous faut alors m'envoyer votre addresse erc20 pour que je puisse vous ajouter (vous pouvez essayer de le faire vous même vous verrez que vous en avez pas l'autorisation).
+
+Il est possible depuis [mycrypto.com](https://app.mycrypto.com/interact-with-contracts) d'interagir avec le contrat en fournissant son adresse et son [ABI](./build/contracts/OFAToken.json), puis en entrant son adresse personelle dans la fonction allowListed lire le niveau de tier attribué.
+
+![allowListedInteraction](./README_images/readAllowListed.PNG "Interact with allowListed")
+
+---
+
+Si le niveau de tier est différent de '0' alors vous pourrez recevoir des tokens OneForAll depuis cette adresse en envoyant des Ether au contrat.
+
+![metamaskOFA](./README_images/metamaskOFA.PNG "OFA token in metamask")
+
+\* *Pour rappel, vous recevrez 10 x [niveau de tier] x [eth envoyé] tokens OFA.*
