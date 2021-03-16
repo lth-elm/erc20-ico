@@ -18,18 +18,14 @@ contract OFAToken is ERC20 {
         // _mint(address(this), initSupply); // contract address
     }
 
-    fallback () 
-    external 
-    payable 
-    onlyListed 
-    {
+    fallback () external payable onlyListed {
         require(msg.value != 0);
         getToken(msg.value, msg.sender);
     }
 
     function getToken(uint256 _ethsend, address _sender) internal {
         uint8 _multiplicator = 10 * allowListed[_sender]; // allowListed[msg.sender] = tier level = 1 or 2 or 3 (3 is the highest)
-        _mint(msg.sender, _ethsend*_multiplicator); // mint foe the sender 10 * tierLevel OFA token for every Ether send to the contract
+        _mint(msg.sender, _ethsend*_multiplicator); // mint for the sender 10 * tierLevel OFA token for every Ether send to the contract
     }
 
 
