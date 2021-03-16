@@ -1,4 +1,15 @@
-# Présentation
+1. [Présentation](#presentation)
+2. [Fonctions et revue de code](#fonction)
+3. [Migration](#migration)
+    1. [Vers Ganache](#ganache)
+    2. [Vers testnet Rinkeby](#rinkeby)
+        1. [HDWalletProvider](#hdwalletprovider)
+        2. [Infura](#infura)
+        3. [Configurer un project Truffle](#truffleproject)
+        4. [Déployer le contrat](#deploiement)
+3. [Manipulation sur le testnet Rinkeby](#manipulation)
+
+# Présentation <a name="presentation"></a>
 
 Ce smart contract très simple et sur un seul [fichier](contracts/OFAToken.sol) simule l'ICO (Initial Coin Offering) du token **OneForAll (OFA)** issus du standard **ERC20**.
 
@@ -33,7 +44,7 @@ Par simplicité le nombre de décimal a été maintenu à 18 tel qu'il l'aurait 
 Enfin, concernant la *total supply* celle ci peut être 'minter' créer directement dans le contrat avant d'être redistribué mais notre approche sera de la minter directement dans l'adresse qui nous aura envoyée de l'ether si et seulement si cette adresse appartient à notre **whitelist**.
 
 
-# Fonctions et revue de code
+# Fonctions et revue de code <a name="fonction"></a>
 
 Notre objectif est de lancer une ICO auquelle auront accès seulement quelques adresses.
 
@@ -78,9 +89,9 @@ modifier onlyListed () {
 }
 ```
 
-# Migration
+# Migration <a name="migration"></a>
 
-## Vers Ganache
+## Vers Ganache <a name="ganache"></a>
 
 La migration vers **Ganache** se fait très simplement grâce à **Truffle** initialisé au début de projet qui nous permet facilement d'écrire, compiler et déployer des smart contracts grâce à un environnement intégré.
 
@@ -118,19 +129,19 @@ truffle console
 truffle(development)>
 ```
 
-## Vers testnet Rinkeby
+## Vers testnet Rinkeby <a name="rinkeby"></a>
 
-### HDWalletProvider
+### HDWalletProvider <a name="hdwalletprovider"></a>
 
 Afin de migrer vers un testnet on a besoin de HDWalletProvider de truffle : ```npm install @truffle/hdwallet-provider```.
 
-### Infura
+### Infura <a name="infura"></a>
 
 Il faut aussi s'enregistrer à **Infura** qui est une infrastructure permettant permet aux développeurs de Dapps *'applications décentralisées'* d’accéder aux informations de la blockchain Ethereum sans avoir besoin de posséder un noeud complet. Une fois enregistré, il faut créer un projet, selectionner un *endpoints* (testnet Rinkeby pour notre part) et récupérer la clé API ou *Project ID* et le premier morceau de l'adresse https.
 
 ![infura-keys](./README_images/infuraKey.PNG "Infura Keys")
 
-### Configure Truffle project
+### Configurer un projet Truffle <a name="truffleproject"></a>
 
 Dans le fichier [truffle-config.js](truffle-config.js) les lignes suivantes permettrent de définir l'object HDWalletProvider et utiliser le module dotenv.
 
@@ -164,7 +175,7 @@ module.exports = {
 
 *Si l'on souhaite utiliser une autre adresse que la première généré par la seed, on peut préciser son index en paramètre de ```HDWalletProvider()```.*
 
-### Déployer le contrat
+### Déployer le contrat <a name="deploiement"></a>
 
 Compiler le projet.
 
@@ -244,7 +255,7 @@ Summary
 
 Le hash de la transaction est la suivante *0xaf3c0daaed553adf6cfe9ce85408b76f01b88bf6a6dfed4b6569ddda7ff56a35* visible à cette [adresse](https://rinkeby.etherscan.io/tx/0xaf3c0daaed553adf6cfe9ce85408b76f01b88bf6a6dfed4b6569ddda7ff56a35), et l'adresse du contrat OFAToken ***0xcD30CDAfBB3FC9cDb6e12Fa725F7659749ED79cf*** visible [ici](https://rinkeby.etherscan.io/address/0xcd30cdafbb3fc9cdb6e12fa725f7659749ed79cf).
 
-# Manipulation sur le testnet Rinkeby
+# Manipulation sur le testnet Rinkeby <a name="manipulation"></a>
 
 Si vous n'êtes pas sur la whitelist vous ne pourrez pas recevoir des OFA, il vous faut alors m'envoyer votre addresse erc20 pour que je puisse vous ajouter (vous pouvez essayer de le faire vous même vous verrez que vous en avez pas l'autorisation).
 
