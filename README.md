@@ -1,19 +1,19 @@
-1. [Présentation](#presentation)
-2. [Fonctions et revue de code](#fonction)
+1. [Presentation](#presentation)
+2. [Functions and code review](#function)
 3. [Migration](#migration)
-    1. [Vers Ganache](#ganache)
-    2. [Vers testnet Rinkeby](#rinkeby)
+    1. [To Ganache](#ganache)
+    2. [To Rinkeby testnet](#rinkeby)
         1. [HDWalletProvider](#hdwalletprovider)
         2. [Infura](#infura)
-        3. [Configurer un project Truffle](#truffleproject)
-        4. [Déployer le contrat](#deploiement)
-3. [Manipulation sur le testnet Rinkeby](#manipulation)
+        3. [Setting up a Truffle project](#truffleproject)
+        4. [Deploying the contract](#deployment)
+3. [Manipulation on the Rinkeby testnet](#manipulation)
 
-# Présentation <a name="presentation"></a>
+# Presentation <a name="presentation"></a>
 
-Ce smart contract très simple et sur un seul [fichier](contracts/OFAToken.sol) simule l'ICO (Initial Coin Offering) du token **OneForAll (OFA)** issus du standard **ERC20**.
+This very simple smart contract written on a single [file](contracts/OFAToken.sol) simulates the ICO (Initial Coin Offering) of the **OneForAll (OFA)** token based on the **ERC20** standard.
 
-L'installation de la librairie openzeppelin ```npm install @openzeppelin/contracts```, permet de simplifier le développement des smart-contracts grâce à l'intégration des standards ERC et leur utilisation direct.
+The installation of the openzeppelin library ```npm install @openzeppelin/contracts```, simplifies the development of smart-contracts thanks to the integration of ERC standards and their direct use.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -37,20 +37,20 @@ contract OFAToken is ERC20 {
 }
 ```
 
-Grâce à l'import du fichier *ERC20.sol* de la librairie d'openzeppelin on a pu en quelque ligne créer notre premier contrat générant des tokens OneForAll dont le ticker est 'OFA'. 
+Thanks to the import of the *ERC20.sol* file from the openzeppelin library we were able to create in only a few lines our first contract that generates OneForAll tokens with 'OFA' as its ticker. 
 
-Par simplicité le nombre de décimal a été maintenu à 18 tel qu'il l'aurait été par défaut si la ligne ```_setupDecimals(initdecimals);``` n'aurait pas été entré.
+For ease of use the decimals number has been kept at 18 as it would have been by default if the line ```_setupDecimals(initdecimals);``` had not been entered.
 
-Enfin, concernant la *total supply* celle ci peut être 'minter' créer directement dans le contrat avant d'être redistribué mais notre approche sera de la minter directement dans l'adresse qui nous aura envoyée de l'ether si et seulement si cette adresse appartient à notre **whitelist**.
+Finally, the *total supply* can be minted directly in the contract before being redistributed but our approach will be to mint it directly in the address that will have sent us ether if and only if this address belongs to our **whitelist**.
 
 
-# Fonctions et revue de code <a name="fonction"></a>
+# Functions and code review <a name="function"></a>
 
-Notre objectif est de lancer une ICO auquelle auront accès seulement quelques adresses.
+Our intention is to launch an ICO which will be accessible to only a few addresses.
 
-Chaque adresse appartenant à la whitelist *allowListed* doit être associée à un niveau de tier (1 à 3) qui lui permettra de recevoir plus ou moins d'OFA, le tier 3 étant le plus important. On enregistre ces données dans un mapping rendu public ```mapping(address => uint8) public allowListed;```.
+Every address that belongs to the whitelist *allowListed* must be given a tier level (1 to 3) that will grant it more or less OFAs, with tier 3 being the most important. This data is stored in a mapping made public ```mapping(address => uint8) public allowListed;```.
 
-On écrit un ```modifier onlyAdmin``` qui permet de vérifier qu'un appel de fonction est faite depuis l'adresse ayant déployé le contrat, en effet, la fonction suivante ```function addCustomer(address _address, uint8 _tier) public onlyAdmin``` permettant d'ajouter une adresse et un niveau de tier dans *allowListed* ne doit pas pouvoir être exécuté par n'importe qui. 
+We write a ```modifier onlyAdmin``` that verifies whether a function call is made from the address that deployed the contract or not, indeed, functions such as ```function addCustomer(address _address, uint8 _tier) public onlyAdmin``` that would add an address and a tier level in *allowListed* must not be executed by anyone other than the administrator.
 
 ```solidity
 mapping(address => uint8) public allowListed; // uint for tier 1, 2 or 3
@@ -68,9 +68,9 @@ modifier onlyAdmin () {
 
 ---
 
-Avant d'envoyer des OFA on doit s'assurer de bien recevoir des ETH, la fonction ```fallback () external payable onlyListed``` sera exécutée quand le contrat recevra des Ethers. De la même manière que précedemment le modifier ```onlyListed``` vérifie que l'adresse envoyant des Ether appartient bien à *allowListed* auquel cas il ne pourra ni envoyer d'Ether au contrat ni recevoir des OFA.
+Before sending OFAs we have to make sure that we receive ETH, the function ```fallback () external payable onlyListed``` will be executed when the contract receives Ether. As before, the ```onlyListed``` modifier checks that the address sending Ether does belongs to *allowListed*, otherwise they will not be able to send Ether to the contract nor receive OFA.
 
-La fonction ```getToken(uint256 _ethsend, address _sender) internal ``` appelé depuis le fallback va alors minter à cette adresse 10 x [niveau de tier] x [nombre d'eth envoyé au contrat] de tokens OneForAll.
+The function ```getToken(uint256 _ethsend, address _sender) internal``` called from within the fallback will then mint to this address 10 x [tier level] x [number of eth sent to the contract] OneForAll tokens.
 
 ```solidity
 fallback () external payable onlyListed {
@@ -91,7 +91,7 @@ modifier onlyListed () {
 
 # Migration <a name="migration"></a>
 
-## Vers Ganache <a name="ganache"></a>
+## To Ganache <a name="ganache"></a>
 
 La migration vers **Ganache** se fait très simplement grâce à **Truffle** initialisé au début de projet qui nous permet facilement d'écrire, compiler et déployer des smart contracts grâce à un environnement intégré.
 
@@ -129,7 +129,7 @@ truffle console
 truffle(development)>
 ```
 
-## Vers testnet Rinkeby <a name="rinkeby"></a>
+## To Rinkeby testnet <a name="rinkeby"></a>
 
 ### HDWalletProvider <a name="hdwalletprovider"></a>
 
@@ -141,7 +141,7 @@ Il faut aussi s'enregistrer à **Infura** qui est une infrastructure permettant 
 
 ![infura-keys](./README_images/infuraKey.PNG "Infura Keys")
 
-### Configurer un projet Truffle <a name="truffleproject"></a>
+### Setting up a Truffle project <a name="truffleproject"></a>
 
 Dans le fichier [truffle-config.js](truffle-config.js) les lignes suivantes permettrent de définir l'object HDWalletProvider et utiliser le module dotenv.
 
@@ -175,7 +175,7 @@ module.exports = {
 
 *Si l'on souhaite utiliser une autre adresse que la première généré par la seed, on peut préciser son index en paramètre de ```HDWalletProvider()```.*
 
-### Déployer le contrat <a name="deploiement"></a>
+### Deploying the contract <a name="deployment"></a>
 
 Compiler le projet.
 
@@ -255,7 +255,7 @@ Summary
 
 Le hash de la transaction est la suivante *0xaf3c0daaed553adf6cfe9ce85408b76f01b88bf6a6dfed4b6569ddda7ff56a35* visible à cette [adresse](https://rinkeby.etherscan.io/tx/0xaf3c0daaed553adf6cfe9ce85408b76f01b88bf6a6dfed4b6569ddda7ff56a35), et l'adresse du contrat OFAToken ***0xcD30CDAfBB3FC9cDb6e12Fa725F7659749ED79cf*** visible [ici](https://rinkeby.etherscan.io/address/0xcd30cdafbb3fc9cdb6e12fa725f7659749ed79cf).
 
-# Manipulation sur le testnet Rinkeby <a name="manipulation"></a>
+# Manipulation on the Rinkeby testnet <a name="manipulation"></a>
 
 Si vous n'êtes pas sur la whitelist vous ne pourrez pas recevoir des OFA, il vous faut alors m'envoyer votre addresse erc20 pour que je puisse vous ajouter (vous pouvez essayer de le faire vous même vous verrez que vous en avez pas l'autorisation).
 
